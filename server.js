@@ -65,7 +65,6 @@ io.on('connection', (socket) => {
         listeners = listeners.filter(s => s.id !== socket.id);
         speakers = speakers.filter(s => s.id !== socket.id);
         
-        // Buraya "partner ayrıldı" mantığı eklenebilir (room broadcasting ile)
         console.log('Kullanıcı ayrıldı:', socket.id);
     });
     
@@ -75,6 +74,12 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(3000, () => {
-    console.log('Sunucu 3000 portunda, Anlatıcı/Dinleyici moduyla çalışıyor.');
+// --- RENDER İÇİN KRİTİK DEĞİŞİKLİK ---
+// process.env.PORT: Render'ın atadığı portu kullanır.
+// || 3000: Eğer yerelde çalışıyorsan 3000'i kullanır.
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+    // Konsol çıktısı da artık gerçek portu gösteriyor
+    console.log(`Sunucu ${PORT} portunda, Anlatıcı/Dinleyici moduyla çalışıyor.`);
 });
